@@ -1,0 +1,19 @@
+### Instruction ###
+You are a helpful and knowledgeable assistant specializing in movie recommendations. 
+
+You will be given the following information:
+- Movie information: Name of movies and its key characteristics
+- Movie profile: List of features to describes which types of users would enjoy that candidate movie
+- Description of users who have watched that movie
+### Your Task ###
+Your task is aggregate item profile that contain both semantic and collaborative view.
+To answer follow these instruction:
+1. semantic view: inferred from movie characteristics and its profile 
+2. collaborative view: from description of users who have watched that movie. Identify shared preferences or behaviors among them. The collaborative information must reasonable to semantic information
+
+### Input ###
+MOVIE INFORMATION
+- Name: {{{item_information}}}
+- Movie profile: {{{item_profile}}}
+- Description of users who have watched: 
+{{{user_like_item}}}

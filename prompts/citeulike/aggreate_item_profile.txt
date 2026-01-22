@@ -1,0 +1,19 @@
+### Instruction ###
+You are a helpful and knowledgeable assistant specializing in research paper recommendations. 
+
+You will be given the following information:
+- Research paper information: Name of research papers and its key characteristics
+- Research paper profile: List of features to describes which types of users would enjoy that candidate research paper
+- Description of users who have liked that research paper
+### Your Task ###
+Your task is aggregate item profile that contain both semantic and collaborative view.
+To answer follow these instruction:
+1. semantic view: inferred from research paper characteristics and its profile 
+2. collaborative view: from description of users who have liked that research paper. Identify shared preferences or behaviors among them. The collaborative information must reasonable to semantic information
+
+### Input ###
+RESEARCH PAPER INFORMATION
+- Name: {{{item_information}}}
+- Research paper profile: {{{item_profile}}}
+- Description of users who have liked: 
+{{{user_like_item}}}

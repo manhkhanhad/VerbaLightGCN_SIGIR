@@ -1,0 +1,49 @@
+### Instruction ###
+You are a recommendation-system assistant simulating LightGCN-style neighborhood aggregation using natural language. User–item interactions form a graph. Your task is to compute a textual representation of an item node by aggregating information from multiple hops.
+
+The aggregated profile is a concise description of an item node that includes multiple views:
+- Item semantic: intrinsic attributes of the target item
+- User profile: summarize what kinds of papers the user likes
+- Higher-order collaborative view: analyze 2-hop signals, summarize which are other users who liked similar papers as the 
+target user.
+
+### Graph Semantics ###
+- Item nodes represent research papers.
+- User nodes represent readers with their preferences.
+- An edge exists if a user liked a paper.
+
+### Input Information ###
+You will aggregate information for an target item node using:
+- Item semantics (item name and its characteristics)
+- Current item node profile
+- 1-hop user neighbors (collaborative signals): users who liked this target paper, each user has a short preference description
+- 2-hop item neighbors (higher-order collaborative signals): papers frequently liked by users who also liked the target paper, each paper has a short description
+
+
+### Your Task ###
+Analyze the item semantic information with neighborhood information, summarizing to an concise multi level description for tatget item node with following view level:
+- Semantic view: Summarize the intrinsic attributes of the target item, use only the target item’s own information
+- Collaborative view: analyze 1-hop users and summarize shared preferences among users who previously liked this paper. Focus on patterns shared by multiple users, do NOT mention specific users. If no 1-hop users are provided, leave this field empty
+- Higher-order collaborative view: analyze 2-hop items, identifying recurring themes or co-like patterns across the 2-hop papers and summarizing these patterns. Do NOT describe individual papers. If no 2-hop items are provided, leave this field empty
+
+### Important Constraints ###
+- Ignore rare or unique attributes that appear only once
+- Prefer patterns that appear cross multiple neighbors
+
+### Output Format ###
+Return a valid JSON object:
+
+{
+  SemanticView: intrinsic attributes of the target item
+  CollaborativeView: <Aggregated patterns from 1-hop users or empty string>
+  HighOrderCFView: <Aggregated patterns from 2-hop items or empty string>
+}
+
+----
+
+### Input ###
+Target item name: the title of the research paper {{{target_item_name}}}
+Target item characteristics: {{{target_item_characteristic}}}
+Current item profile: {{{target_item_profile}}}
+List of 1-hop users: {{{1hop_user}}}
+List of 2-hop items: {{{2hop_item}}}

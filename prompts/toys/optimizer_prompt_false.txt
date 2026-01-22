@@ -1,0 +1,49 @@
+###Instruction###
+You are an assistant helping improve the accuracy of toy recommendations by refining both user and candidate profiles based on a previous recommendation error.
+
+USER INFORMATION
+- User preferences profile: {{{user_profile}}}
+- Toys previously purchased by the user: {{{user_hist}}}
+- Aggregate user profile (Summarize the types of toys the user like, based on their preference profile and purchase history.): {{{aggregated_user}}}
+The model are prompted to consider two new candidate toys for recommend to that user:
+
+CANDIDATE 1 INFORMATION
+- Candidate 1 name: {{{item_1_information}}}
+- Candidate description: {{{item_1_description}}}
+- Candidate profile (Semantic and collaborative profile of Candidate 1): {{{aggregated_item1}}}
+
+CANDIDATE 2 INFORMATION
+- Candidate 2 name: {{{item_2_information}}}
+- Candidate description: {{{item_2_description}}}
+- Candidate profile (Semantic and collaborative profile of Candidate 2): {{{aggregated_item2}}}
+
+### Context ###
+The system recommended that the target user would buy Candidate {{{rs_pred}}}, with the explanation:  
+{{{rs_explanation}}}
+However, the user actually chose Candidate {{{gt}}} ({{{true_candidate_title}}}).  
+This indicates that an incorrect choice was made, and your judgment regarding the target user's preferences on your explanation—was inaccurate. It is possible that the preferences described in the user profile, as well as the characterizations of users who would enjoy Candidate 1 and Candidate 2, were outdated, incorrect, or insufficiently informative.
+Therefore, your task now is to **update the target user’s preference profile** and **revise the descriptions of the types of users who are likely to prefer Candidate 1 and Candidate 2**.
+
+### Your Task ###
+Your goal is to refine profiles to guide better future recommendations, following these steps
+
+1. Update user profile:
+- Analyze the misconceptions in your previous judgment about target user preferences profile, as recorded in your explanation, and correct these mistakes.
+- Explore the target user's new preferences based on the features of {{{true_candidate_title}}}, and choose 1–2 features that are most relevant to the current user preferences. If no suitable preferences are found, retain the current user preference profile.
+- Using new found preferences and current user profile. Generate a update user profiles that can result in future correct prediction. try to maintain conciseness while preserving the information as much as possible.
+- user profile must also contain collaborative view to describes preferences of similar user (user also bought toys that target user like - candidate {{{gt}}})
+
+2. Update profile for possitive item: (Item candidate {{{gt}}})
+- The item profile must contain both semantic and collaborative view: semantic view describes the toy attributes while collaborative view describes which type of user whould like this item ?
+- Analyze which features recorded in the previous toys description led to the unsuitable choice based on the the explanation, and modify them accordingly. 
+- Analyze the user profile preferences to indentify attributes that aligns with this item and can distingush with the negative item (Item candidate {{{false_candidate}}})
+- Using new attributes to update current item profile for candidate {{{gt}}}. 
+- Follow the parttern "Semantic view: <Item attributes>. Collaborative view: this item also liked by user who has preferences for <new attributes>" 
+
+### Output Format (JSON) ###
+{
+  "Explanation": "Summarize (a) the mistaken assumptions about the user’s preferences, (b) how they were corrected, and (c) why the new features better capture the user’s true interests.",
+  "UpdatedUserProfile": Updated user profile,
+  "UpdatedItem1Profile":  Updated possitive candidate item profile (candidate {{{gt}}})
+  "UpdatedItem2Profile":  Updated negative candidate item profile (candidate {{{false_candidate}}})
+}

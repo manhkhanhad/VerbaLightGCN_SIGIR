@@ -1,0 +1,75 @@
+###Instruction###
+You are an assistant helping improve the accuracy of movie recommendations by refining both user and candidate profiles based on a previous recommendation error.
+
+The recommendation model is given following information
+1. Target user node representation that include:
+- User multi-view profile: include User Preferences summarize which kind of item user like; Higher-order collaborative view is a summary of users who watched movies similar to those watched by the target user (This represents indirect collaborative signals and should be treated as weak evidence)
+- User history: movies previously watched by the user
+
+2. Two candidate item node representations, each include:
+- Candidate information: Name of movies and its key characteristics
+- User multi-view profile: include SemanticView to summarize item features; Collaborative view (1-hop summarize) describe shared preferences among users who previously watched this movie; And higher-order collaborative view is a summary of users who watched movies similar to those watched by the target user (This represents indirect collaborative signals and should be treated as weak evidence)
+
+
+### Context ###
+USER INFORMATION
+- User preference profile: {{{user_profile}}}
+- Movies previously watched by the user: {{{user_hist}}}
+- Multi-view user profile: {{{user_agg_profile}}}
+
+Two new candidate movies:
+CANDIDATE 1 INFORMATION
+- Name: {{{item_1_information}}}
+- Candidate 1 multi-view profile: {{{aggregated_item1}}}
+
+CANDIDATE 2 INFORMATION
+- Name: {{{item_2_information}}}
+- Candidate 2 multi-view profile: {{{aggregated_item2}}}
+
+The system recommended that the target user would watch Candidate {{{rs_pred}}}, with the explanation:  
+{{{rs_explanation}}}
+However, the user actually chose Candidate {{{gt}}} ({{{true_candidate_title}}}).  
+This indicates that an incorrect choice was made, and your judgment regarding the target user's preferences on your explanation—was inaccurate. It is possible that the preferences described in the user profile, as well as the characterizations of users who would enjoy Candidate 1 and Candidate 2, were outdated, incorrect, or insufficiently informative.
+
+
+### Refinement Objective ###
+Refine representations so that:
+- The updated user representation aligns more strongly with the positive item
+- The positive item representation better reflects the type of users who choose it
+- The negative item representation is adjusted to reduce false alignment with this user type
+
+All updates must:
+- Be abstract and pattern-based
+- Reflect shared preferences, not single-instance quirks
+- Remain concise and representation-focused
+
+### Refinement Tasks ###
+Following these steps
+1. Update User Representation
+- Identify mistaken assumptions in the previous explanation
+- Determine which user preferences were overweighted, missing, or misinterpreted
+- From the chosen item ({{{true_candidate_title}}}), extract 1–2 salient attributes that better reflect the user’s true preferences
+- Update the user profile to include: Semantic view: intrinsic user preferences and Collaborative view: preferences inferred from similar users who also favor items like {{{true_candidate_title}}}
+If no clearly new preference signal is present, preserve the existing profile.
+- The updated profile still follow json format
+{
+  "UserPreferences": summarize which kind of item user like
+  "HighOrderCFView": aggregated patterns from 2-hop user or empty string
+}
+
+2. Update Positive Item Representation (Candidate {{{gt}}})
+- Identify which aspects of the previous item representations caused confusion with the negative item
+- Strengthen attributes analyzing the user preferences to indentify attributes that aligns with this item and can distingush with the negative item (Item candidate {{{false_candidate}}}). Using new attributes to update current item profile for candidate {{{gt}}}. 
+- The updated profile still follow json format
+{
+  SemanticView: intrinsic attributes of the target item
+  CollaborativeView: <Concise summary of intrinsic item features>
+  HighOrderCFView: <Aggregated patterns from 1-hop users or empty string>
+}
+
+### Output Format (JSON) ###
+{
+  "Explanation": "Summarize (a) the mistaken assumptions about the user’s preferences, (b) how they were corrected, and (c) why the new features better capture the user’s true interests.",
+  "UpdatedUserProfile": Updated user profile,
+  "UpdatedPositiveItemProfile":  Updated possitive candidate item profile (candidate {{{gt}}})
+}

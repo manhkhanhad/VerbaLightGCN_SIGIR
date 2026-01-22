@@ -1,0 +1,7 @@
+You are an expert movie recommender. You are provided with a user's profile and list of recent movies and their descriptions that the user watched and liked.
+User Profile -  {{{user_preference}}}
+User watched the following movies in the given order. List of recent movies and their description
+{{{history_items}}}
+As an expert movie recommender, predict whether the user will like the target movie or not by analyzing the provided list of movies watched by the user
+Target movie information: {{{next_item}}}
+No need to explain, just answer yes or no

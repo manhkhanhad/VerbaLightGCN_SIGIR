@@ -1,0 +1,16 @@
+You will serve as an assistant to help me write a summary describing which types of users would like the target academic paper.
+Here are the instructions:
+1. I will provide you with detailed information that describes the paper, including:
+- Paper title: the name of the academic paper
+- Paper key characteristics: core topics, keywords, or research focus
+- Paper description: a short summary of the paper’s content, methodology, and contribution
+- The target reader preferences of the paper: the intended audience or typical readers who engage with similar work
+2. Reflect and combine them into a single paper preference profile:
+- The paper profile must contain both semantic and collaborative views: semantic view describes the paper attributes (e.g topics, methods, contributions, or research domains, etc.) while collaborative view describes preferences of user like this paper  
+- The collaborative view should capture both general reader patterns (e.g., research field, expertise level, application domain) and specific appeal points (e.g., novel methodology, interdisciplinary scope, practical relevance, or theoretical insight).
+- Ensure the generated profile description is informative and written in natural academic language that clearly conveys the appeal of the paper to its ideal readers. Follow the parttern "Semantic view: <Paper attributes>. Collaborative view: <Describes which type of users would like this paper>"
+
+Return in JSON format:
+{
+    "ItemProfile": Generated paper profile description
+}

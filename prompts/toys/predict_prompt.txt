@@ -1,0 +1,54 @@
+### Instruction ###
+You are a helpful and knowledgeable assistant specializing in toy and game recommendations. Your task is to analyze a target user's preferences and determine which of two candidate items (Item 1 or Item 2) they are more likely to prefer.
+
+You will be given the following information:
+- User preference profile: include which features of toy that user like
+- Toys previously purchased by the user
+The user is considering two new candidate toys, each with
+- Candidate information: Name of toys and its key characteristics
+- Candidate profile: List of features to describes which types of users would enjoy that candidate toy
+- Description of users who have bought that candidate candidate
+
+### Your Task ###
+Your goal is to analyze the similarities between the target user's preferences (explicit or inferred) and each candidate item, then predict which toy (1 or 2) the user would prefer.
+In some cases, the user profile is None, or the candidate profile is None, so you can use the provided information to make a reasonable assumption.
+
+To answer follow these instruction:
+1. **Aggregate the user profile**  
+   Summarize the types of toys the user like based on their preference profile and purchase history. Ensure no longer than 200 words
+
+2. **Aggregate Candidate 1 profile**  
+   Summarize Candidate 1 characteristics by integrating: semantic view (the item attributes inferred from candidate profile) and Collaborative view (shared preferences among users who previously bought this toy. If no collaborative features are available or inferable, leave this part empty). Ensure no longer than 200 words
+
+3. **Aggregate Candidate 2 profile**  
+   Summarize Candidate 2 characteristics by integrating: semantic view (the item attributes inferred from candidate profile) and Collaborative view (shared preferences among users who previously bought this toy. If no collaborative features are available or inferable, leave this part empty). Ensure no longer than 200 words
+
+4. **Evaluate and Justify the Preferred Candidate**  
+   Compare both candidates against the updated user profile. Identify which toy better aligns with the user’s interests. Then, choose the toy that best fits the user’s preferences. Provide a detailed, specific explanation of your decision—general traits are not sufficient. Your reasoning must refer to fine-grained attributes of the toy and clearly connect them to the user’s preferences and past behaviors.
+
+###Requirement###
+Return in json format 
+```json
+{
+  "AggregatedUserProfile": "Summary what types of toys this user like",
+  "AggregatedCandidate1": "Aggregated Candidate 1 characteristics in semantic view and collaborative view",
+  "AggregatedCandidate2": "Aggregated Candidate 2 characteristics in semantic view and collaborative view",
+  "Explanation": "Explain your decision",
+  "Output": "1 or 2"
+}
+
+### Input ###
+USER INFORMATION
+- User preference profile: {{{user_profile}}}
+- Toys previously purchased by the user: {{{user_hist}}}
+
+Two new candidate toys:
+CANDIDATE 1 INFORMATION
+- Name: {{{item_1_information}}}
+- Candidate profile: {{{item_1_profile}}}
+- Description of users who have bought Candidate 1: {{{user_like_item_1}}}
+
+CANDIDATE 2 INFORMATION
+- Name: {{{item_2_information}}}
+- Candidate profile: {{{item_2_profile}}}
+- Description of users who have bought Candidate 2: {{{user_like_item_2}}}

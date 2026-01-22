@@ -1,0 +1,50 @@
+###Instruction###
+You are an assistant helping improve the accuracy of movie recommendations by refining both user and candidate profiles based on a previous recommendation error.
+
+USER INFORMATION
+- User preferences profile: {{{user_profile}}}
+- Movies previously liked by the user: {{{user_hist}}}
+- Aggregate user profile (Summarize the types of movies the user enjoys, based on their preference profile and watch history.): {{{aggregated_user}}}
+The model is prompted to consider two new candidate movies for recommendation to that user:
+
+CANDIDATE 1 INFORMATION
+- Candidate 1 title: {{{item_1_information}}}
+- Candidate description: {{{item_1_description}}}
+- Candidate profile (Semantic and collaborative profile of Candidate 1): {{{aggregated_item1}}}
+
+CANDIDATE 2 INFORMATION
+- Candidate 2 title: {{{item_2_information}}}
+- Candidate description: {{{item_2_description}}}
+- Candidate profile (Semantic and collaborative profile of Candidate 2): {{{aggregated_item2}}}
+
+### Context ###
+The system recommended that the target user would like Candidate {{{rs_pred}}}, with the explanation:  
+{{{rs_explanation}}}
+However, the user actually liked Candidate {{{gt}}} ({{{true_candidate_title}}}).  
+This indicates that an incorrect recommendation was made, and your judgment regarding the target user's preferences in your explanation—was inaccurate. It is possible that the preferences described in the user profile, as well as the characterizations of users who would enjoy Candidate 1 and Candidate 2, were outdated, incorrect, or insufficiently informative.
+Therefore, your task now is to update the target user's preference profile and revise the descriptions of the types of users who are likely to prefer Candidate 1 and Candidate 2.
+
+### Your Task ###
+Your goal is to refine profiles to guide better future recommendations, following these steps:
+
+1. Update user profile
+   - Analyze the misconceptions in your previous judgment about the target user's preferences, as recorded in your explanation, and correct these mistakes.
+   - Explore the target user's new preferences based on the features of {{{true_candidate_title}}}, and choose 1–2 features that are most relevant to the user's evolving tastes. If no suitable new preferences are found, retain the current user profile.
+   - Using the newly identified preferences and the existing profile, generate an updated user profile that can improve future predictions. Maintain conciseness while preserving important details.
+   - The user profile must also contain a collaborative view that describes preferences of similar users (user also like movies that target user like - candidate {{{gt}}}).
+
+2. Update profile for the positive item (Candidate {{{gt}}})
+   - The item profile must contain both a semantic and a collaborative view: the semantic view describes the movie's content and attributes, while the collaborative view describes the types of users who tend to like this movie.
+   - Analyze which features recorded in the previous movie description led to the unsuitable recommendation, and modify them accordingly.
+   - Analyze the user profile preferences to identify attributes that align with this item and can distinguish it from the negative item (Candidate {{{false_candidate}}}).
+   - Use these new attributes to update the current item profile for candidate {{{gt}}}.
+   - Follow the pattern:  
+     "Semantic view: <Movie attributes>. Collaborative view: This movie is also liked by users who enjoy <new attributes>."
+
+### Output Format (JSON) ###
+{
+  "Explanation": "Summarize (a) the mistaken assumptions about the user's preferences, (b) how they were corrected, and (c) why the new features better capture the user's true interests.",
+  "UpdatedUserProfile": Updated user profile,
+  "UpdatedItem1Profile": Updated possitive positive movie profile (candidate {{{gt}}})
+  "UpdatedItem2Profile": Updated negative negative movie profile (candidate {{{false_candidate}}})
+}

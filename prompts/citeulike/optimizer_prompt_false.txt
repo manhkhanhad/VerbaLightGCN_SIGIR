@@ -1,0 +1,49 @@
+###Instruction###
+You are an assistant helping improve the accuracy of academic paper recommendations by refining both user and candidate article profiles based on a previous recommendation error.
+
+USER INFORMATION
+- User preferences profile: {{{user_profile}}}
+- Papers previously liked by the user: {{{user_hist}}}
+- Aggregate user profile (Summarize the types of papers the user likes, based on their preference profile and reading history.): {{{aggregated_user}}}
+The model is prompted to consider two new candidate papers for recommendation to that user:
+
+CANDIDATE 1 INFORMATION
+- Candidate 1 title: {{{item_1_information}}}
+- Candidate abstract/description: {{{item_1_description}}}
+- Candidate profile (Semantic and collaborative profile of Candidate 1): {{{aggregated_item1}}}
+
+CANDIDATE 2 INFORMATION
+- Candidate 2 title: {{{item_2_information}}}
+- Candidate abstract/description: {{{item_2_description}}}
+- Candidate profile (Semantic and collaborative profile of Candidate 2): {{{aggregated_item2}}}
+
+### Context ###
+The system predicted that the target user would like Candidate {{{rs_pred}}}, with the explanation:  
+{{{rs_explanation}}}
+However, the user actually liked Candidate {{{gt}}} ({{{true_candidate_title}}}).  
+This indicates that an incorrect choice was made, and your reasoning about the target user's research interests—as expressed in your explanation—was inaccurate.  It is possible that the preferences described in the user profile, as well as the descriptions of users who would enjoy Candidate 1 and Candidate 2, were outdated, incomplete, or not sufficiently precise.
+Therefore, your task now is to **update the target user’s research interest profile** and **revise the descriptions of the types of users who are likely to prefer Candidate 1 and Candidate 2**.
+
+### Your Task ###
+Your goal is to refine profiles to guide better future recommendations, following these steps:
+
+1. Update user profile:
+- Analyze the misconceptions in your previous reasoning about the target user’s research interests, as recorded in your explanation, and correct these mistakes.
+- Explore the target user’s new interests based on the features or topics of {{{true_candidate_title}}}, and choose 1–2 aspects that are most relevant to the user’s actual interests.  If no suitable preferences are found, retain the current user preference profile.
+- Using these new aspects and the existing user profile, generate an updated user profile that could lead to more accurate future predictions. while preserving the information as much as possible.
+- The user profile must also contain a collaborative view describing the preferences of similar users (e.g., users who also liked papers similar to {{{gt}}}).
+
+2. Update profile for the positive item (Candidate {{{gt}}}):
+- The article profile must contain both semantic and collaborative views: semantic view describes the paper’s key attributes (topics, methods, contributions, etc.). while collaborative view describes which types of users are likely to be interested in this paper (e.g., users focusing on similar research domains or methodologies).
+- Analyze which aspects in the previous paper descriptions led to the incorrect recommendation, and revise them accordingly.
+- Identify attributes in the user’s updated profile that align with this paper and differentiate it from the negative item (Candidate {{{false_candidate}}}).
+- Use these insights to update the current item profile for Candidate {{{gt}}},
+- - Follow the parttern: "Semantic view: <Paper attributes>. Collaborative view: this paper is also liked by researchers interested in <new attributes>."`
+
+### Output Format (JSON) ###
+{
+  "Explanation": "Summarize (a) the mistaken assumptions about the user’s preferences, (b) how they were corrected, and (c) why the new features better capture the user’s true interests.",
+  "UpdatedUserProfile": Updated user profile,
+  "UpdatedItem1Profile":  Updated possitive candidate paper profile (candidate {{{gt}}})
+  "UpdatedItem2Profile":  Updated negative candidate paper profile (candidate {{{false_candidate}}})
+}

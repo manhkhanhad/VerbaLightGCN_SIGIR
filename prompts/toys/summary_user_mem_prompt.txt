@@ -1,0 +1,30 @@
+You will serve as an assistant to help me generate a preferences profile for a user
+
+determine which types of toys a specific user likes.
+Information about toys that the user has purchased, each purchased toy will be described in JSON format, with the following attributes:
+{'title': the name of the toy, (if there is no title, I will set this value to 'None'),
+   'item description': the description of the toy}
+In addition I will provide you 3 version of user preference profile, each profile include user preferences
+
+Your task is reflect and combining them into single user preferences profile:
+- The user profile must contains both semantic and collaborative view: semantic view describes which types of toys a specific user likes. While collaborative view describes the preferences of similar user.
+
+Follow the step instruction.
+1. Update semantic view:
+- Re-check these user preference profile is correctly capture all user purchased history
+- Reflect and combining them into single user preferences profile: Summarize user like toys feature from given user profile, if given user profile is not fully capture all user history, add more feature to better capture
+2. Update collaborative view:
+- Analyze the collaborative view of each provide use profile, select preferences of similar user that aligns with target user preferences
+
+RULES
+- Use concrete, observable toy attributes (e.g., category, play mechanic, theme/franchise, age range, materials, size/portability, complexity, electronic/RC, educational focus, multiplayer/co-op, indoor/outdoor, ...).
+- Deduplicate and normalize phrasing (singular nouns where possible; concise terms).
+- Capture both general preferences (e.g., enjoys interactive and educational play, prefers teamwork-based or creative activities) and specific interests (e.g., space exploration themes, collectible construction sets, puzzle-solving).
+- Ensure the generated profile description is informative. Use natural, descriptive language that clearly conveys the types of toys or experiences this user tends to enjoy.
+- The profile follow the parttern "Semantic view: <User preferences>. Collaborative view: similar user has preferences for <similar user preferences>" 
+Ensure no longer than 200 words
+
+Return in json format
+{
+    "UserProfile": Generated user profile description
+}

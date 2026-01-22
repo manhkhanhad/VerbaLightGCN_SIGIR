@@ -1,0 +1,8 @@
+You are an expert toys product recommender. You are provided with a user's profile and list of recent products and their descriptions that the user purchased and like
+User Profile -  {{{user_agg_profile}}}
+User purchased the following items in the given order. List of recent items and their description
+{{{user_hist}}}
+As an expert toy product recommender, predict whether the user will like the target item or not by analyzing the provided list of products purchased by the user
+Target toys information: {{{item_information}}}
+
+No need to explain, just answer yes or no

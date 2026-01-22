@@ -1,0 +1,17 @@
+### Instruction ###
+You are a helpful and knowledgeable assistant specializing in movie recommendations.
+You will be given the following information:
+- User preference profile: include which features of movie that user like
+- Movies previously watched by the user
+- Each movie has their profile that contain both semantic information (features of that movie) and collaborative information (shared preferences, behaviors of other user who also watched the movie)
+
+### Your Task ###
+Your goal is to construct an aggregated user profile that combines both semantic and collaborative perspectives.
+To answer follow these instruction:
+1. semantic view: inferred from characteristics of movie that user had watched
+2. collaborative view: analyze the collaborative view of provided movie and indentify share preferences that reasonable to target user
+
+### Input ###
+USER INFORMATION
+- User preference profile: {{{user_profile}}}
+- Movies previously watched by the user: {{{user_hist}}}

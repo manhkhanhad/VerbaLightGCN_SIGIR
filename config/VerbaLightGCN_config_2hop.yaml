@@ -1,0 +1,105 @@
+run_name: "VerbaLightGCN_2hop"
+# Model configuration
+model:
+  _target_: models.VerbaLightGCN_2hop.VerbaLightGCN
+  llm_model: "Qwen/Qwen2.5-7B-Instruct"
+  temperature: 0
+  top_p: 0.95
+  prompt_path: ${data.prompt_path}
+  embedding_dim: 64
+  num_layers: 2
+  reg_weight: 1e-5
+  learning_rate: 1e-3
+  weight_decay: 0.0
+  checkpoint_dir: ${paths.checkpoint_dir}
+  wandb_run_name: ${logging.wandb_run_name}
+  is_update_negative_candidate: ${training.is_update_negative_candidate}
+  load_checkpoint: false
+  output_dir: ${paths.output_dir}
+  output_file_path: ${paths.output_file_path}
+  true_w: 0.5 # Weight for distillation
+  false_w: 0.1
+  gamma: 1.0
+  llm_update_frequency: 10
+  llm_update_frequency_schedule: "fixed" # "fixed" or "linear"
+  llm_update_frequency_update_scale: 0.25 # Update scale for llm update frequency linear schedule
+  ranking_mode: false
+  user_profile_path: null
+  item_profile_path: null
+  item_description_path: "dataset/Toys/item_desciption.json"
+  summary_memory: true
+  max_profile_length: 3
+  tensor_parallel_size: 1
+  max_num_seqs: 12
+  save_content: true
+
+# Data configuration
+data:
+  _target_: data.VerbaLightGCN_data_module_2hop.VerbaLightGCNDataModule
+  interaction_path: "dataset/Toys/interaction.parquet"
+  item_info_path: "dataset/Toys/item_kw.json"
+  prompt_path: "./prompts/toys_2hop"
+  batch_size: 12
+  num_workers: 12
+  num_eval_sample: ${training.num_eval_sample}
+  ranking_mode: ${model.ranking_mode}
+  
+
+# Training configuration
+training:
+  mode: "train"
+  epochs: 5
+  seed: 2025
+  num_eval_sample: 250
+  checkpoint_frequency: 100
+  is_update_negative_candidate: false
+  pretrain_path: null
+
+# Paths configuration
+paths:
+  checkpoint_dir: "ckpt/toys"
+  output_dir: "output/toys"
+  log_dir: "log/VerbaLightGCN_toys"
+  output_file_path: null
+  test_file: null
+
+# Logging configuration
+logging:
+  wandb_project: "VerbaLightGCN_Toys_v4"
+  wandb_run_name: ${run_name}
+
+# Trainer configuration
+trainer:
+  _target_: pytorch_lightning.Trainer
+  max_epochs: ${training.epochs}
+  accelerator: "gpu"
+  devices: 1
+  enable_progress_bar: true
+  enable_model_summary: true
+  check_val_every_n_epoch: 1
+  log_every_n_steps: 1
+  num_sanity_val_steps: 0
+
+callbacks_vlgcn:
+  checkpoint:
+      _target_: pytorch_lightning.callbacks.ModelCheckpoint
+      dirpath: ${paths.checkpoint_dir}/${logger.name}
+      filename: "${logger.name}-{epoch:02d}-{val_f1:.2f}"
+      monitor: "val/llm_pred_acc"
+      mode: "max"
+      save_top_k: -1
+  early_stopping:
+    _target_: pytorch_lightning.callbacks.EarlyStopping
+    monitor: "val/llm_pred_acc"
+    patience: 20
+    mode: "max"
+  lr_monitor:
+    _target_: pytorch_lightning.callbacks.LearningRateMonitor
+    logging_interval: "epoch" 
+
+# Logger configuration
+logger:
+  _target_: pytorch_lightning.loggers.WandbLogger
+  project: ${logging.wandb_project}
+  name: ${logging.wandb_run_name}
+  log_model: true 

@@ -1,0 +1,33 @@
+You will serve as an assistant to help me generate a preferences profile for a user, determine which types of movies a specific user likes.
+
+Information about movies that the user has liked will be provided, each liked movie will be described in JSON format, with the following attributes:
+{
+   'title': the name of the movie (if there is no title, I will set this value to 'None'),
+   'item description': the description or synopsis of the movie
+}
+In addition, I will provide you with 3 versions of the user's preference profile, each containing user preferences.
+
+Your task is to reflect on and combine them into a single user preferences profile:
+- The user profile must contain both semantic and collaborative views: semantic view describes which types of movies a specific user likes. While collaborative view
+describes the preferences of similar users.
+
+Follow the step instructions:
+1. Update semantic view:
+   - Re-check that the given user preference profiles correctly capture all liked movie history.  
+   - Reflect and combine them into a single user preference profile: summarize the types of movies the user likes based on the provided profiles.  
+   - If the given profiles do not fully capture all user history, add more features to better represent their preferences.
+2. Update collaborative view:
+   - Analyze the collaborative view of each provided user profile, and select preferences of similar users that align with the target user's preferences.
+
+RULES
+- Use concrete, observable movie attributes (e.g., genre, tone, themes, storytelling style, setting, character type, pacing, cinematography style, emotional tone, era, cultural context, etc.).  
+- Deduplicate and normalize phrasing (singular nouns where possible; concise terms).  
+- Capture both general preferences (e.g., genre, tone, themes, storytelling style, setting, etc) and specific interests.  
+- Ensure the generated profile description is informative. Use natural, descriptive language that clearly conveys the types of movies or experiences this user tends to enjoy.  
+- The profile should follow the pattern:  
+  `"Semantic view: <User preferences>. Collaborative view: similar users have preferences for <similar user preferences>."`
+
+Return in JSON format
+{
+    "UserProfile": Generated user profile description
+}

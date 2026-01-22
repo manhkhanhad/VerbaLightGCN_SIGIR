@@ -1,0 +1,33 @@
+You will serve as an assistant to help me generate a multi-view profile for a user
+
+determine which types of research papers a specific user likes.
+Information about papers that the user has liked, each liked paper will be described in JSON format, with the following attributes:
+{'title': the name of the paper, (if there is no title, I will set this value to 'None'),
+   'item description': the description of the paper}
+In addition I will provide you 3 version of multi-view user preference profile, each profile include:
+- UserPreferences: analyze papers liked by the user, summarize which kind of papers user like
+- Higher-order collaborative view: analyze 2-hop user, which are other users who liked similar papers as the target user.
+
+Your task is reflect and combining them into single multi-view user preferences profile with UserPreferences and Higher-order collaborative view
+
+
+Follow the step instruction.
+1. Update UserPreferences
+- Re-check these user preference profile is correctly capture all user liked paper history
+- Reflect and combining them into single user preferences profile: Summarize user's research interest from given user profile, if given user profile is not fully capture all user history, add more features to better capture
+2. Higher-order collaborative view
+- Analyze the collaborative view of each provide use profile, select preferences of similar user that aligns with target user preferences
+
+RULES
+- Use concrete, observable paper attributes (e.g., research domain, methodology, application area, publication venue, theoretical vs. empirical, interdisciplinary topics, technical depth, problem type, ...).
+- Deduplicate and normalize phrasing (singular nouns where possible; concise terms).
+- Capture both general preferences (e.g., prefers empirical studies, focuses on applied research, interested in interdisciplinary work) and specific interests (e.g., machine learning optimization, natural language processing, bioinformatics applications).
+- Ensure the generated profile description is informative. Use natural, descriptive language that clearly conveys the types of research papers or topics this user tends to enjoy.
+- The profile follow the parttern "UserPreferences: <User preferences>. HighOrderCFView: similar user has preferences for <similar user preferences>" 
+
+
+Return in json format
+{
+  "UserPreferences": summarize which kind of research papers user like
+  "HighOrderCFView": aggregated patterns from 2-hop user or empty string
+} 

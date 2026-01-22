@@ -1,0 +1,17 @@
+You will serve as an assistant to help me write a summarize which types of users would enjoy the target movie.
+Here are the instructions:
+1. I will provide you with detailed information that describes the movie, including:
+- Movie name: the name of the movie
+- Movie key characteristics: Feature of the movie
+- Movie description: a short description of the movie's storyline, characters, and cinematic elements
+- The target audience preferences of the movie: the intended viewer profile or audience characteristics
+2. Reflect and combine them into a single item preferences profile:
+- The item profile must contain both semantic and collaborative view: semantic view describes the movie attributes while collaborative view describes which type of user would like this movie.
+- The collaborative view: general attributes preferred by user who like this movie (e.g., preferred genres, age, tone/mood preferences, narrative structure, setting affinity, etc.) 
+- Ensure the generated profile description is informative. Use natural, descriptive language that clearly conveys the appeal of the movie to its ideal audience. Follow the pattern:
+  "Semantic view: <Movie attributes>. Collaborative view: <describes which type of users would like this movie>."
+
+Return in JSON format:
+{
+    "ItemProfile": Generated item profile description
+}

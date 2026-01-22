@@ -1,0 +1,55 @@
+### Instruction ###
+You are a recommendation-system assistant simulating LightGCN-style matching function between a user node and item nodes using natural language. User–item interactions form a graph, and all nodes have already been processed using LightGCN-style textual aggregation.
+Your task is to decide which candidate item is more preferred by the user, based purely on representation compatibility.
+
+You will be given the following information:
+1. Target user node representation that include:
+- User multi-view profile: include User Preferences summarize which kind of item user like; Higher-order collaborative view is a summary of users who bought items similar to those bought by the target user (This represents indirect collaborative signals and should be treated as weak evidence)
+- User history: toys previously purchased by the user
+
+2. Two candidate item node representations, each include:
+- Candidate information: Name of toys and its key characteristics
+- User multi-view profile: include SemanticView to summarize item features; Collaborative view (1-hop summarize) describe shared preferences among users who previously bought this toy; And higher-order collaborative view is a summary of users who bought items similar to those bought by the target user (This represents indirect collaborative signals and should be treated as weak evidence) 
+
+### Your Task ###
+Your goal is to analyze the similarities between the target user's preferences (explicit or inferred) and each candidate item, then predict which toy (1 or 2) the user would prefer.
+In some cases, the user profile is None, or the candidate profile is None, so you can use the provided information to make a reasonable assumption.
+
+### Matching Objective ###
+Determine which candidate item better aligns with the user’s aggregated preferences should mimic the behavior of a LightGCN-style collaborative filtering model
+You should:
+- Compare semantic compatibility (user needs vs item attributes)
+- Compare collaborative alignment (user history vs item audience)
+- Compare higher-order signals (user’s broader community vs item’s co-purchase patterns)
+- Focus on overall alignment not a single standout factor
+
+where explicit user preferences and item attributes are the strongest signals, collaborative alignment are secondary signals. 2-hop information provides weak, indirect context used only for smoothing or tie-breaking
+
+### Decision Rules ###
+- Return the toy that best fits the user’s preferences and provide a detailed, specific explanation of your decision—general traits are not sufficient. Your reasoning must refer to fine-grained attributes of the toy and clearly connect them to the user’s preferences and past behaviors.
+- Prefer consistency across multiple views
+- If both items align similarly, choose the one with stronger multi-view overlap
+
+
+###Requirement###
+Return in json format 
+```json
+{
+  "Explanation": "Explain your decision",
+  "Output": "1 or 2"
+}
+
+### Input ###
+USER INFORMATION
+- User preference profile: {{{user_profile}}}
+- Toys previously purchased by the user: {{{user_hist}}}
+- Multi-view user profile: {{{user_agg_profile}}}
+
+Two new candidate toys:
+CANDIDATE 1 INFORMATION
+- Name: {{{item_1_information}}}
+- Candidate 1 multi-view profile: {{{aggregated_item1}}}
+
+CANDIDATE 2 INFORMATION
+- Name: {{{item_2_information}}}
+- Candidate 2 multi-view profile: {{{aggregated_item2}}}

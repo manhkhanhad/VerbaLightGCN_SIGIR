@@ -1,0 +1,42 @@
+### Instruction ###
+You are a recommendation-system assistant simulating LightGCN-style neighborhood aggregation using natural language. User–item interactions form a graph. Your task is to compute a textual representation of a user node by aggregating information from multiple hops.
+
+The aggregated profile is cosince describe of user node include multi-view:
+- UserPreferences: analyze papers liked by the user, summarize which kind of paper user like
+- Higher-order collaborative view: analyze 2-hop user, which are other users who liked similar papers as the target user.
+
+### Graph Semantics ###
+- User nodes represent researchers with thier preferences
+- Item nodes represent research papers.
+- An edge exists if a user liked a paper.
+
+### Input Information ###
+You will aggregate information for an target user node using:
+- Current user node profile
+- List of 1-hop user (direct interaction signals): Papers liked by the target user, each paper has a short description or profile
+- List of 2-hop items (higher-order collaborative signals): Other users who liked similar papers as the target user, each user has a short preference description
+
+### Your Task ###
+Analyze the user current profile with neighborhood information, summarizing to an concise multi level description for tatget item node with following view level:
+- UserPreferences: analyze papers liked by the user, summarize which kind of paper user like. Focus on patterns shared across multiple papers. Do NOT mention specific paper names. If no 1-hop items are provided, leave this field empty
+- Higher-order collaborative view: analyze 2-hop user, Identify shared tastes, contexts, or needs. Focus on patterns common across multiple users. Do NOT describe individual users. If no 2-hop users are provided, leave this field empty
+
+### Important Constraints ###
+- Ignore generic or trivial signals unless consistently repeated
+- Ignore rare or unique attributes that appear only once
+- refer attributes that emerge across multiple neighbors
+
+### Output Format ###
+Return a valid JSON object:
+
+{
+  "UserPreferences": summarize which kind of paper user like
+  "HighOrderCFView": aggregated patterns from 2-hop user or empty string
+}
+
+---
+
+### Input ###
+Target user profile: {{{target_user_profile}}}  
+List of 1-hop items: {{{1hop_item}}}
+List of 2-hop users: {{{2hop_user}}}

@@ -1,0 +1,41 @@
+###Instruction###
+You are an assistant helping improve the accuracy of research paper recommendations by refining both user and candidate profiles based on a previous recommendation error.
+
+USER INFORMATION
+- User preferences profile: {{{user_profile}}}
+- Papers previously liked by the user: {{{user_hist}}}
+- Aggregate user profile (Summarize the types of research papers the user like based on their preference profile and reading history.): {{{aggregated_user}}}
+The model are prompted to consider two new candidate papers for recommend to that user:
+
+CANDIDATE 1 INFORMATION
+- Candidate 1 name: {{{item_1_information}}}
+- Candidate description: {{{item_1_description}}}
+- Candidate profile (Semantic and collaborative profile of Candidate 1): {{{aggregated_item1}}}
+
+CANDIDATE 2 INFORMATION
+- Candidate 2 name: {{{item_2_information}}}
+- Candidate description: {{{item_2_description}}}
+- Candidate profile (Semantic and collaborative profile of Candidate 2): {{{aggregated_item2}}}
+
+### Context ###
+You recommended that the target user would like Candidate {{{rs_pred}}}, with the explanation:  
+{{{rs_explanation}}}
+The user actually chose Candidate {{{gt}}} ({{{true_candidate_title}}}).
+This indicates that an correct choice was made
+Therefore, your task now is to update the target user's preference profile and candidate profile to reflect this new interaction 
+
+### Your Task ###
+Your goal is to refine profiles to guide better future recommendations.
+To find new features to update user preferences and candidate features, following these steps
+1. Analyze explanation and user/ candidate profile. Analyze which features recorded contribute to correct choice
+2. New User like features: From candidate description and candidate profile of candidate {{{gt}}} "{{{true_candidate_title}}}", along with the list of papers previously liked by the user, identify and summarize the paper features that the user is likely to like.
+3. New User dislike features: From candidate description and candidate profile of candidate {{{false_candidate}}} "{{{false_candidate_title}}}", list up to 3 new feature that CONTRADICT with user preferences but not explicitly listed in user dislike. If can not list, left empty list
+4. New item like features: From user like features, list up to 3 new features that ALIGNS with candidate {{{gt}}} "{{{true_candidate_title}}}", but not explicitly listed in candidate profile. If can not list, left empty list
+
+### Output Format (JSON) ###
+{
+  "Explanation": "Summarize (a) the assumptions about the user's preferences, (b) how they were corrected",
+  "NewUserLike": ["list paper features that user like"],
+  "NewUserDislike": ["list of up to 3 new features contradicting user preferences"],
+  "NewItemLike": ["list of up to 3 new features aligned with {{{gt}}} "{{{true_candidate_title}}}", not mentioned before"],
+}

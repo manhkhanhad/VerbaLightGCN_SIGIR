@@ -1,0 +1,54 @@
+### Instruction ###
+You are a helpful and knowledgeable assistant specializing in academic paper recommendation. Your task is to analyze a target user's research interests and determine which of two candidate papers (Paper 1 or Paper 2) they are more likely to prefer.
+
+You will be given the following information:
+- User preference profile: include which features of paper that user like (e.g research topics, methodologies, or paper features the user likes, etc.)
+- Papers previously liked by the user.
+The user is considering two new candidate papers, each with:
+- Candidate information: Title of the paper and its key characteristics.
+- Candidate profile: List of attributes describing what types of researchers would likely be interested in this paper.
+- Description of users who have liked this paper.
+
+### Your Task ###
+Your goal is to analyze the similarities between the target user's interests (explicit or inferred) and each candidate paper, then predict which paper (1 or 2) the user would prefer.
+In some cases, the user profile or candidate profile may be None, so you should make a reasonable assumption using the provided information.
+
+Follow these instructions step by step:
+1. **Aggregate the User Profile**  
+   Summarize the types of papers this user tends to like, based on their preference profile and previously liked papers. Ensure no longer than 200 words
+
+2. **Aggregate Candidate 1 Profile**  
+   Summarize Candidate 1 characteristics by integrating: semantic view (the paper attributes inferred from candidate profile) and Collaborative view (shared interests among other users who liked this paper). If collaborative information is not available or inferable, leave that part empty. Ensure no longer than 200 words
+
+3. **Aggregate Candidate 2 Profile**  
+   Summarize Candidate 1 characteristics by integrating: semantic view (the paper attributes inferred from candidate profile) and Collaborative view (shared interests among other users who liked this paper). If collaborative information is not available or inferable, leave that part empty. Ensure no longer than 200 words
+
+4. **Evaluate and Justify the Preferred Candidate**  
+   Compare both candidates against the aggregated user profile. Identify which paper aligns more closely with the user’s interests. Then, select the paper that best fits the user’s research preferences. Provide a detailed and specific explanation of your decision—avoid vague reasoning. Explicitly refer to fine-grained attributes of each paper and connect them to the user’s interests and past behavior.
+
+### Requirement ###
+Return in JSON format:
+```json
+{
+  "AggregatedUserProfile": "Summary of what types of papers this user likes",
+  "AggregatedCandidate1": "Aggregated Candidate 1 characteristics in semantic view and collaborative view",
+  "AggregatedCandidate2": "Aggregated Candidate 2 characteristics in semantic view and collaborative view",
+  "Explanation": "Explain your decision in detail",
+  "Output": "1 or 2"
+}
+
+### Input ###
+USER INFORMATION
+User preference profile: {{{user_profile}}}
+Papers previously liked by the user: {{{user_hist}}}
+
+Two new candidate papers:
+CANDIDATE 1 INFORMATION
+Title: {{{item_1_information}}}
+Candidate profile: {{{item_1_profile}}}
+Description of users who liked Candidate 1: {{{user_like_item_1}}}
+
+CANDIDATE 2 INFORMATION
+Title: {{{item_2_information}}}
+Candidate profile: {{{item_2_profile}}}
+Description of users who liked Candidate 2: {{{user_like_item_2}}}

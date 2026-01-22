@@ -1,0 +1,30 @@
+You will serve as an assistant to help me generate a preferences profile for a user.
+
+Determine which types of academic papers a specific user likes.
+Information about papers that the user has liked will be provided, each liked paper is described in JSON format with the following attributes:
+{'title': the name of the paper, (if there is no title, I will set this value to 'None'),
+   'paper description': a brief description or abstract of the paper.}
+In addition, I will provide you 3 versions of user preference profiles, each including user preferences.
+
+Your task is to reflect on and combine them into a single user preferences profile:
+- The user profile must contain both semantic and collaborative views: semantic view describes which types of academic papers a specific user likes (based on paper content, topics, and writing characteristics). While collaborative view describes the preferences of similar user.
+
+Follow the step instructions below:
+1. Update semantic view:
+   - Re-check whether the provided user preference profiles correctly capture all liked papers.
+   - Reflect and combine them into a single user preferences profile: Summarize the user's preferred paper features from the given profiles. If any profile does not fully capture all liked papers, add more relevant features to better represent the user's interests.
+2. Update collaborative view:
+   - Analyze the collaborative view from each provided user profile, select and include the preferences of similar users that align with the target user's preferences.
+
+RULES
+- Use concrete, observable academic paper attributes (e.g., research field, topic area, methodology, data type, writing style, collaboration type, publication venue, technical depth, novelty, theoretical vs. empirical focus, interdisciplinarity, citation pattern, etc.).
+- Deduplicate and normalize phrasing (use singular nouns where possible; concise, domain-specific terms).
+- Capture both general preferences (e.g., prefers applied machine learning research, enjoys interdisciplinary studies, values empirical validation) and specific interests (e.g., recommender systems, graph neural networks, explainable AI, user modeling).
+- Ensure the generated profile description is informative and written in natural, academic-style language that clearly conveys the types of research papers this user tends to like.
+- The profile should follow the pattern:
+  "Semantic view: <User preferences>. Collaborative view: similar users have preferences for <similar user preferences>."
+
+Return in JSON format:
+{
+    "UserProfile": Generated user profile description
+}

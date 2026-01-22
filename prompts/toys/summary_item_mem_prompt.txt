@@ -1,0 +1,16 @@
+You will serve as an assistant to help me write a summarize which types of users would enjoy the target toy.
+Here are the instructions:
+1. I will provide you with detailed information that describes the toy, including:
+- Toy name: the name of the toy
+- Item key characteristics: Feature of that toys
+- Item description: a short description of the toy’s design, functions, and use cases
+- The target customer preferences of the item: the intended audience or preference profile
+2. Reflect and combining them into single item preferences profile:
+- The item profile must contain both semantic and collaborative view: semantic view describes the toy attributes while collaborative view describes which type of user whould like this item ?
+- The collaborative view: Capture both general patterns (e.g., age range, play style, skill development, ...) and specific appeal points (e.g., role-play themes, construction play, portability, ...).
+- Ensure the generated profile description is informative. Use natural, descriptive language that clearly conveys the appeal of the toy to its ideal users. Follow the parttern "Semantic view: <Item attributes>. Collaborative view: <describes which type of user whould like this item>" 
+Ensure no longer than 200 words
+Return in json format
+{
+    "ItemProfile": Generated item profile description
+}

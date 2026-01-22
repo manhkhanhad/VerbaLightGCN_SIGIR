@@ -1,0 +1,20 @@
+You will serve as an assistant to help me write a multi-view profile for the target movie.
+Here are the instructions:
+1. I will provide you with detailed information that describes the movie, including:
+- Movie name: the name of the movie
+- Item key characteristics: key attributes of the movie
+- Item description: a short description of the movie’s story, style, and viewing experience
+- The target audience preferences of the item: the intended audience or preference profile
+2. Reflect and combining them into single multi-view item preferences profile with following aspects:
+- Item semantic: intrinsic attributes of the target item
+- User profile: summarize what kind of movies the user likes
+- Higher-order collaborative view: analyze 2-hop users; summarize patterns among other users who watched similar movies as the target user.
+
+Ensure the generated profile description is informative. Use natural, descriptive language that clearly conveys the appeal of the movie to its ideal audience.
+
+Return in json format
+{
+  SemanticView: <Intrinsic attributes of the target movie>
+  CollaborativeView: <Concise summary of what kind of movies the user likes>
+  HighOrderCFView: <Aggregated patterns from 1-hop/2-hop users or empty string>
+}

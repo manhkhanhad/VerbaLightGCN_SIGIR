@@ -1,0 +1,20 @@
+You will serve as an assistant to help me write a multi-view profile for the target research paper.
+Here are the instructions:
+1. I will provide you with detailed information that describes the paper, including:
+- Paper title: the title of the research paper
+- Item key characteristics: Key topics, methods, and contributions of the paper
+- Item description: a short description of the paper's research focus, methodology, and findings
+- The target reader preferences of the item: the intended audience or preference profile
+2. Reflect and combining them into single multi-view item preferences profile with following aspects:
+- Item semantic: intrinsic attributes of the target item
+- User profile: summarize which kind of item user like
+- Higher-order collaborative view: analyze 2-hop user, summarize which are other users who liked similar items as the target user.
+
+Ensure the generated profile description is informative. Use natural, descriptive language that clearly conveys the appeal of the paper to its ideal readers.
+
+Return in json format
+{
+  SemanticView: intrinsic attributes of the target item
+  CollaborativeView: <Concise summary of intrinsic item features>
+  HighOrderCFView: <Aggregated patterns from 1-hop users or empty string>
+}

@@ -1,0 +1,7 @@
+You are an expert research paper recommender. You are provided with a user's profile and list of recent research papers and their descriptions that the user liked.
+User Profile -  {{{user_preference}}}
+User liked the following research papers in the given order. List of recent research papers and their description
+{{{history_items}}}
+As an expert research paper recommender, predict whether the user will like the target research paper or not by analyzing the provided list of research papers liked by the user
+Target research paper information: {{{next_item}}}
+No need to explain, just answer yes or no
