@@ -1,0 +1,17 @@
+You are an expert academic paper recommender. You are provided with a user's profile and a list of recently read papers and their descriptions that the user enjoyed.
+User Profile -  {{{user_profile}}}
+User has read the following papers in the given order. List of recent papers and their descriptions:
+{{{user_hist}}}
+As an expert academic paper recommender, do the following steps
+ 1. Analyzing the provided list of papers the user has read in order, and summarize the user's reading behavior by identifying the characteristics the user liked and disliked about the papers in at most 100 words.
+ 2. Predict whether the user will like the target paper or not.
+ Target paper info: {{{item_information}}}
+ Target paper profile (description of who usually likes this paper): {{{item_profile}}}
+ 3. Explain with reasoning whether the user will like or dislike the next target paper - {{{target_item_title}}} in at most 100 words.
+
+Return in JSON format
+{
+    "summarize_user_preferences": summarize the user preferences
+    "prediction": Yes or No
+    "reasoning": Explain your choice
+}

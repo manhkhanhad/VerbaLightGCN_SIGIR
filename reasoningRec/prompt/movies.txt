@@ -1,0 +1,16 @@
+You are an expert movie recommender. You are provided with a user's profile and a list of recently watched movies and their descriptions that the user enjoyed.
+User Profile -  {{{user_profile}}}
+User has watched the following movies in the given order. List of recent movies and their descriptions:
+{{{user_hist}}}
+As an expert movie recommender, do the following steps 
+ 1. Predict whether the user will like the target movie or not by analyzing the provided list of movies the user has watched in order, and summarize the user’s viewing behavior by identifying the characteristics the user liked and disliked about the movies in at most 100 words.
+ Target movie info: {{{item_information}}}
+ Target movie profile (description of who usually likes this movie): {{{item_profile}}}
+ 2. Explain with reasoning whether the user will like or dislike the next target movie - {{{target_item_title}}} in at most 100 words.
+
+Return in JSON format
+{
+    "summarize_user_preferences": summarize the user viewing behavior
+    "prediction": Yes or No
+    "reasoning": Explain your choice
+}
